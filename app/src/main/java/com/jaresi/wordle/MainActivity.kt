@@ -2,6 +2,7 @@ package com.jaresi.wordle
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         val restartButton = findViewById<Button>(R.id.restartButton)
         val correctWord = findViewById<TextView>(R.id.correctWord)
         correctWord.text = wordToGuess
+        Log.i("TAG", wordToGuess)
 
         submitButton.setOnClickListener {
             val guessedWord: TextView
@@ -67,14 +69,17 @@ class MainActivity : AppCompatActivity() {
             if (checkGuess(gWord) == "OOOO"){
                 findViewById<pl.droidsonroids.gif.GifImageView>(R.id.celebrateGif).visibility = View.VISIBLE
                 findViewById<TextView>(R.id.header).visibility = View.VISIBLE
-                findViewById<LinearLayout>(R.id.guessGroup).visibility = View.GONE
+                submitButton.visibility = View.GONE
                 restartButton.visibility = View.VISIBLE
+                //correctWord.visibility = View.GONE
                 //findViewById<TextView>(R.id.correctWord).visibility = View.VISIBLE
             }
             else if (guessCount == 2){
                 findViewById<pl.droidsonroids.gif.GifImageView>(R.id.sadGif).visibility = View.VISIBLE
                 findViewById<TextView>(R.id.wrongHeader).visibility = View.VISIBLE
-                findViewById<TextView>(R.id.header).visibility = View.VISIBLE
+                submitButton.visibility = View.GONE
+                restartButton.visibility = View.VISIBLE
+                correctWord.visibility = View.VISIBLE
             }
 
             guessCount += 1
@@ -91,11 +96,15 @@ class MainActivity : AppCompatActivity() {
             findViewById<LinearLayout>(R.id.thirdGuess).visibility = View.GONE
             findViewById<LinearLayout>(R.id.thirdCheck).visibility = View.GONE
             findViewById<pl.droidsonroids.gif.GifImageView>(R.id.celebrateGif).visibility = View.GONE
+            findViewById<pl.droidsonroids.gif.GifImageView>(R.id.sadGif).visibility = View.GONE
             findViewById<TextView>(R.id.header).visibility = View.GONE
             findViewById<LinearLayout>(R.id.guessGroup).visibility = View.VISIBLE
+            findViewById<TextView>(R.id.wrongHeader).visibility = View.GONE
             restartButton.visibility = View.GONE
             submitButton.isEnabled = true
             submitButton.isClickable = true
+            submitButton.visibility = View.VISIBLE
+            Log.i("TAG", wordToGuess)
         }
     }
 
